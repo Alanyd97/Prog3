@@ -13,9 +13,11 @@ public class Alumno {
         miID=id;
     }
 
+
     public static void setId(int id) {
         Alumno.id = id;
     }
+    public void setMiID(int id){this.miID = id;}
 
     public int getMiID() {return miID;}
     public void setSiguiente(Alumno siguiente) { this.siguiente = siguiente; }

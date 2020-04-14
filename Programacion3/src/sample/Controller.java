@@ -2,8 +2,10 @@ package sample;
 public class Controller {
     public Alumno primero;
     public Controller(){
+        primero.setId(9);
         primero = new Alumno();
         primero.setUltimo(primero);
+        primero.setId(2);
     }
 
     public void setPrimero(Alumno lista) {this.primero = lista;}
@@ -124,17 +126,18 @@ public class Controller {
        }
     }
 
-    public Alumno extraerSecuencia(Alumno a){
-        Alumno primero = inSec(a);
+    public Alumno extraerSecuencia(){
+        Alumno primero = inSec(this.getPrimero());
         if (primero.getSiguiente() != null){ //si el siguiente del inicio de secuencia es distinto de nulo
             Alumno ultimo = this.finSec(primero); // busco el final de secuencia
-            if (a.getMiID() == primero.getMiID()){
-                a.setSiguiente(ultimo.getSiguiente());
+            if (this.getPrimero().getMiID() == primero.getMiID()){
+                this.setPrimero(ultimo.getSiguiente());
             }else{
-                Alumno aux = a;
-                while (aux.getSiguiente().getMiID() != ultimo.getMiID()){
+                Alumno aux = this.getPrimero();
+                while (aux.getSiguiente().getMiID() != primero.getMiID()){
                     aux = aux.getSiguiente();
                 }
+               aux.setSiguiente(ultimo.getSiguiente());
             }
             ultimo.setSiguiente(null);
             return primero;

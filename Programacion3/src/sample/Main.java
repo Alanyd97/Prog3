@@ -18,18 +18,15 @@ public class Main{
         Alumno ea = new Alumno();
 
         //llenado de lista 1
-        controller.inOrdenado(b, controller.getPrimero());//1-2-3
-        controller.inOrdenado(d, controller.getPrimero());//5-1-2-3-4
-        controller.inOrdenado(a, controller.getPrimero());//1-2
-        controller.inOrdenado(c, controller.getPrimero());//1-2-3-4
-
-        //llenado de lista 2
-            Controller controller1 = new Controller();
-            controller1.inFinal(aa);//1-2
-            controller1.inFinal(ba);//1-2-3
-            controller1.inFinal(ca);//1-2-3-4
-            controller1.inFinal(da);//5-1-2-3-4
-        controller1.inFinal(ea);//5-1-2-3-4
+        controller.inFinal(d);
+        controller.inFinal(b);
+        controller.inFinal(a);
+        controller.inFinal(c);
+        controller.inFinal(aa);
+        controller.inFinal(ba);
+        controller.inFinal(ca);
+        controller.inFinal(da);
+        controller.inFinal(ea);
 
 
 
@@ -40,14 +37,15 @@ public class Main{
            System.out.println("alumnos 0: "+aux.getMiID());
             aux = aux.getSiguiente();
         }
+        /*
         aux=controller1.getPrimero();
         System.out.println("--------");
         while (aux != null){
             System.out.println("alumnos 1: "+aux.getMiID());
             aux = aux.getSiguiente();
         }
-
-        aux = controller.extraerSecuencia(controller1.getPrimero());
+        */
+        aux = controller.extraerSecuencia();
         if (aux == null){
             System.out.println("no existe el indice");
         }else{
@@ -56,7 +54,16 @@ public class Main{
                 aux=aux.getSiguiente();
             }
         }
-
+        System.out.println("--------");
+        aux = controller.extraerSecuencia();
+        if (aux == null){
+            System.out.println("no existe el indice");
+        }else{
+            while (aux != null){
+                System.out.println("cadena: "+ aux.getMiID());
+                aux=aux.getSiguiente();
+            }
+        }
 
 
 
