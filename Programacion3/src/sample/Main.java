@@ -8,44 +8,56 @@ public class Main{
         Alumno c = new Alumno();
         Alumno d = new Alumno();
 
-        /*//lista 2
-        a.setId(50);
+        //lista 2
+        a.setId(3);
         Alumno aa = new Alumno();
         Alumno ba = new Alumno();
         Alumno ca= new Alumno();
         Alumno da = new Alumno();
-        */
-        System.out.println(controller.getPrimero().getMiID());
-        System.out.println(b.getMiID());
+        a.setId(3);
+        Alumno ea = new Alumno();
+
         //llenado de lista 1
         controller.inOrdenado(b, controller.getPrimero());//1-2-3
         controller.inOrdenado(d, controller.getPrimero());//5-1-2-3-4
         controller.inOrdenado(a, controller.getPrimero());//1-2
         controller.inOrdenado(c, controller.getPrimero());//1-2-3-4
 
-        /*llenado de lista 2
+        //llenado de lista 2
             Controller controller1 = new Controller();
             controller1.inFinal(aa);//1-2
-            controller1.inFinal(ca);//1-2-3-4
             controller1.inFinal(ba);//1-2-3
-            controller1.inFirst(da);//5-1-2-3-4
+            controller1.inFinal(ca);//1-2-3-4
+            controller1.inFinal(da);//5-1-2-3-4
+        controller1.inFinal(ea);//5-1-2-3-4
 
-       */
+
 
         Alumno aux = controller.getPrimero();
 
+
         while (aux != null){
-           System.out.println(aux.getMiID());
+           System.out.println("alumnos 0: "+aux.getMiID());
             aux = aux.getSiguiente();
         }
-        /*
-        aux = controller.getIndex(1);
+        aux=controller1.getPrimero();
+        System.out.println("--------");
+        while (aux != null){
+            System.out.println("alumnos 1: "+aux.getMiID());
+            aux = aux.getSiguiente();
+        }
+
+        aux = controller.extraerSecuencia(controller1.getPrimero());
         if (aux == null){
             System.out.println("no existe el indice");
         }else{
-            System.out.println("Alumno encontrado id: "+aux.getMiID());
+            while (aux != null){
+                System.out.println("cadena: "+ aux.getMiID());
+                aux=aux.getSiguiente();
+            }
         }
-        */
+
+
 
 
     }

@@ -64,14 +64,82 @@ public class Controller {
             inFirst(a);
         }else{
             if (a.getMiID()> b.getUltimo().getMiID()){
-                System.out.println("ultimo id: "+b.getUltimo().getMiID());
                 inFinal(a);
             }else{
                 inMedio(a, b);
             }
         }
-
-
     }
 
+
+    public Alumno busca(int a, Alumno b){
+        if (b != null){
+            if (a == b.getMiID()){
+                return b;
+            }else{
+                return busca(a, b.getSiguiente());}
+        }else{return null;}
+    }
+
+    public Alumno extrae(int n, Alumno a){
+        if (a.getSiguiente() != null){
+            if (a.getSiguiente().getMiID() == n){
+                return removeMedio(a);
+            }else{return extrae(n, a.getSiguiente()); }
+        }else{
+            return null;
+        }
+    }
+
+    //le dan el nodo anterior al cual eliminar y lo devuelve ya quitado
+    private Alumno removeMedio(Alumno a){
+        Alumno aux = a.getSiguiente();
+        a.setSiguiente(a.getSiguiente().getSiguiente());
+        return aux;
+    }
+
+    //EJERCICIO ENTREGABLE
+
+    public Alumno inSec(Alumno lista){
+        if (lista.getSiguiente() != null){//supongo que siempre le voy a pasar un puntero != null
+            if (lista.getMiID() >= lista.getSiguiente().getMiID()){
+                return inSec(lista.getSiguiente());
+            }else{
+                return lista;
+            }
+        }else{
+            return lista;
+        }
+    }
+
+    public Alumno finSec(Alumno lista){
+       if (lista.getSiguiente()!=null){
+           if (lista.getMiID() < lista.getSiguiente().getMiID()){
+               return finSec(lista.getSiguiente());
+           }else{
+               return lista;
+           }
+       }else{
+           return lista;
+       }
+    }
+
+    public Alumno extraerSecuencia(Alumno a){
+        Alumno primero = inSec(a);
+        if (primero.getSiguiente() != null){ //si el siguiente del inicio de secuencia es distinto de nulo
+            Alumno ultimo = this.finSec(primero); // busco el final de secuencia
+            if (a.getMiID() == primero.getMiID()){
+                a.setSiguiente(ultimo.getSiguiente());
+            }else{
+                Alumno aux = a;
+                while (aux.getSiguiente().getMiID() != ultimo.getMiID()){
+                    aux = aux.getSiguiente();
+                }
+            }
+            ultimo.setSiguiente(null);
+            return primero;
+        }else{
+            return null;
+        }
+    }
 }
