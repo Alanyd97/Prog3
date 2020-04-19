@@ -15,4 +15,5 @@ public class MyIterator implements  Iterator<Nodo>{
     public boolean hasNext(){
         return a != null;
     }
+
 }

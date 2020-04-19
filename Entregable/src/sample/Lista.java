@@ -17,38 +17,40 @@ public class Lista  implements Iterable<Nodo>{
     }
 
     //busca el inicio de la secuencia
-    public Nodo inSec(Nodo lista, Iterator<Nodo> i){
+    public Nodo inSec(Iterator<Nodo> i){
         if (i.hasNext()){
             Nodo aux = i.next();
-            if (!lista.soyMenor(lista.getSiguiente())){
-                i.next();
-                return inSec(lista.getSiguiente(),i);
-            }else return lista;
-        }else return lista;
+            if (!aux.soyMenor(aux.getSiguiente())){
+                return inSec(i);
+            }else return aux;
+        }else return null;
     }
 
-    public Nodo finSec(Nodo lista, Iterator<Nodo> i){
+    public Nodo finSec(Iterator<Nodo> i){
+        Nodo aux = i.next();
         if (i.hasNext()){
-            if (lista.getMiID() < lista.getSiguiente().getMiID()){
-                this.setPrimero(i.next());
-                return finSec(lista.getSiguiente(), i);
+            if (aux.soyMenor(aux.getSiguiente())){
+                return finSec(i);
             }else{
-                return lista;
+                return aux;
             }
         }else{
-            return lista;
+            return aux;
         }
     }
 
     public Nodo extraerSecuencia(){
         Iterator<Nodo> iterador = this.iterator();
-        Nodo inicio = this.inSec(iterador.next(), iterador);
-        if (inicio.getSiguiente() != null){ //si el siguiente del inicio de secuencia es distinto de nulo
-            Nodo ultimo = this.finSec(inicio, iterador); // busco el final de secuencia
+        if (iterador.hasNext()){ //si el siguiente del inicio de secuencia es distinto de nulo
+            Nodo inicio = this.inSec(iterador);
+            Nodo ultimo = this.finSec(iterador); // busco el final de secuencia
             if(iterador.hasNext()){
+                this.setPrimero(ultimo.getSiguiente());
                 ultimo.setSiguiente(extraerSecuencia());
+                return inicio;
+            }else{
+                return inicio;
             }
-            return inicio;
         }else{
             return null;
         }
