@@ -1,5 +1,6 @@
 package sample;
-public class Alumno {
+
+public class Alumno{
 
     private Alumno siguiente;
     private static Alumno ultimo;
@@ -13,7 +14,6 @@ public class Alumno {
         miID=id;
     }
 
-
     public static void setId(int id) {
         Alumno.id = id;
     }
@@ -22,8 +22,10 @@ public class Alumno {
     public int getMiID() {return miID;}
     public void setSiguiente(Alumno siguiente) { this.siguiente = siguiente; }
     public static void setUltimo(Alumno u) {ultimo = u;}
-    public Alumno getSiguiente() { return siguiente; }
+    public Alumno getNext() { return siguiente; }
     public static Alumno getUltimo() { return Alumno.ultimo; }
+
+
 
     public Alumno alumnoIgual(Alumno a){
         if (equals(a)){ return this;}

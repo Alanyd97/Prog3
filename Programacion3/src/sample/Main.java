@@ -29,31 +29,35 @@ public class Main{
         controller.inFinal(ea);
 
 
+        MyIterator nose= (MyIterator) controller.iterator();
+        System.out.println(nose.next().);
+
 
         Alumno aux = controller.getPrimero();
 
-
-        while (aux != null){
+/*
+        while (aux.hasNext()){
            System.out.println("alumnos 0: "+aux.getMiID());
             aux = aux.getSiguiente();
         }
-        /*
+
         aux=controller1.getPrimero();
         System.out.println("--------");
         while (aux != null){
             System.out.println("alumnos 1: "+aux.getMiID());
             aux = aux.getSiguiente();
         }
-        */
+
         aux = controller.extraerSecuencia();
         if (aux == null){
             System.out.println("no existe el indice");
         }else{
-            while (aux != null){
+            while (aux.hasNext()){
                 System.out.println("cadena: "+ aux.getMiID());
                 aux=aux.getSiguiente();
             }
         }
+        /*
         System.out.println("--------");
         aux = controller.extraerSecuencia();
         if (aux == null){
@@ -64,7 +68,7 @@ public class Main{
                 aux=aux.getSiguiente();
             }
         }
-
+*/
 
 
     }
