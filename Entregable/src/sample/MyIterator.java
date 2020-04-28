@@ -2,18 +2,21 @@ package sample;
 
 import java.util.Iterator;
 
-public class MyIterator implements  Iterator<Nodo>{
+public class MyIterator implements  Iterator<Integer>{
     private Nodo a;
     public MyIterator(Nodo b){
         a=b;
     }
-    public Nodo next(){
-        Nodo next = a;
+
+    public Integer next(){
+        Integer next = a.getMiID();
         a = a.getSiguiente();
         return next;
     }
+
     public boolean hasNext(){
         return a != null;
     }
+
 
 }

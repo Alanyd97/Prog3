@@ -1,12 +1,13 @@
 package sample;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Lista  implements Iterable<Nodo>{
-    public Nodo primero;
+public class Lista  implements Iterable<Integer>{
+    private Nodo primero;
 
-    public Lista(Nodo a){
-        primero = a;
+    public Lista(Integer a){
+        primero = new Nodo(a);
     }
 
     public void setPrimero(Nodo lista) {this.primero = lista;}
@@ -16,48 +17,32 @@ public class Lista  implements Iterable<Nodo>{
         this.primero = a;
     }
 
-    //busca el inicio de la secuencia
-    public Nodo inSec(Iterator<Nodo> i){
-        if (i.hasNext()){
-            Nodo aux = i.next();
-            if (!aux.soyMenor(aux.getSiguiente())){
-                return inSec(i);
-            }else return aux;
-        }else return null;
+    public ArrayList<Integer> getSecuencias(ArrayList<Integer> a){
+        ArrayList<Integer> aux = new ArrayList<>();
+        for (int i = 0; i < a.size() ; i++) {
+                if(((i+1) < a.size()-1) && (a.get(i) < a.get(i+1))){
+                    aux.add(a.get(i));
+                    aux.add(a.get(i+1));
+                    i=i+1;
+                }
+        }
+        return aux;
     }
 
-    public Nodo finSec(Iterator<Nodo> i){
-        Nodo aux = i.next();
-        if (i.hasNext()){
-            if (aux.soyMenor(aux.getSiguiente())){
-                return finSec(i);
-            }else{
-                return aux;
-            }
-        }else{
-            return aux;
+    public ArrayList<Integer> extraerSecuencia(){
+        Iterator<Integer> iterador = this.iterator();
+        ArrayList<Integer> array = new ArrayList<>();
+        while(iterador.hasNext()) {
+            array.add(iterador.next());
         }
+        array= this.getSecuencias(array);
+        return array;
     }
 
-    public Nodo extraerSecuencia(){
-        Iterator<Nodo> iterador = this.iterator();
-        if (iterador.hasNext()){ //si el siguiente del inicio de secuencia es distinto de nulo
-            Nodo inicio = this.inSec(iterador);
-            Nodo ultimo = this.finSec(iterador); // busco el final de secuencia
-            if(iterador.hasNext()){
-                this.setPrimero(ultimo.getSiguiente());
-                ultimo.setSiguiente(extraerSecuencia());
-                return inicio;
-            }else{
-                return inicio;
-            }
-        }else{
-            return null;
-        }
-    }
+
 
     @Override
-    public Iterator<Nodo> iterator() {
+    public Iterator<Integer> iterator() {
         return new MyIterator(this.primero);
     }
 }
