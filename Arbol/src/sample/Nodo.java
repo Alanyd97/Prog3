@@ -184,15 +184,15 @@ public class Nodo {
     }
 
 
-    private boolean esHoja(){
+    private boolean esHoja(){ //devuelve un boolean si no tiene hijos
         return mayores == null && menores == null;
     }
 
-    private boolean esRaiz(){
+    private boolean esRaiz(){ //devuelve boolean si tiene ambos hijos
         return mayores != null && menores != null;
     }
 
-    private Nodo esRama(){
+    private Nodo esRama(){ //devuelve un puntero al nodo siguiente a ser reemplazado
         if (mayores == null || menores == null){
             if(mayores == null){
                 return menores;
@@ -202,9 +202,9 @@ public class Nodo {
         }else return null;
     }
 
-    private boolean eliminarRaiz(Nodo a, int b){
-        if (a.getInfo() == b){
-            if(a.esRaiz()){
+    private boolean eliminarRaiz(Nodo a, int b){ // cambia el valor de la raiz por el mas izquierdo del primer derecho
+        if (a.getInfo() == b){                   // busca el nodo a eliminar a partir de esta raiz y pregunta
+            if(a.esRaiz()){                      //si este es una rama o una hoja y lo elimina
                 int n = a.getMayores().getMinElem();
                 Nodo aux = a.anteriorAEliminar(n);
                 a.setInfo(n);
@@ -221,8 +221,8 @@ public class Nodo {
     }
 
 
-    private Nodo anteriorAEliminar(int n) {
-        if (n > getInfo()){
+    private Nodo anteriorAEliminar(int n) {//algoritmo de busqueda que devuelve un puntero al nodo anterior
+        if (n > getInfo()){                // que se debe eliminar
             if (mayores != null){
                 if (mayores.getInfo() == n){
                     return this;
