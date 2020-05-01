@@ -10,11 +10,12 @@ public class Lista  implements Iterable<Integer>{
         primero = new Nodo(a);
     }
 
-    public void setPrimero(Nodo lista) {this.primero = lista;}
+    public void setPrimero(Integer a) {this.primero.setSiguiente(new Nodo(a));}
 
-    public void inFirst(Nodo a){
-        a.setSiguiente(this.primero);
-        this.primero = a;
+    public void inFirst(Integer a){
+        Nodo b = new Nodo(a);
+        b.setSiguiente(this.primero);
+        this.primero = b;
     }
 
     public ArrayList<Integer> getSecuencias(ArrayList<Integer> a){
