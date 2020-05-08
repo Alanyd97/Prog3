@@ -1,53 +1,328 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Arbol {
     private Nodo raiz;
 
-    public Arbol(Integer a) { this.raiz = new Nodo(a);}
+    public Arbol() {raiz = null;}
 
     //getter & setter
     public Object getRaiz() {return raiz.getInfo(); }
 
+    public void generarArbolRandom(){
+        int contador = 15;
+        if (isEmpty()){
+            raiz = new Nodo(ThreadLocalRandom.current().nextInt(0, 40+1));
+        }
+        while (contador != 1){
+            int n = ThreadLocalRandom.current().nextInt(0, 40+1);
+            if (insertar(n, raiz)){
+                contador--;
+            }
+
+        }
+    }
+
+    public void inOrder(){
+        inOrder(this.raiz);
+        System.out.println("       ");
+        System.out.println("----------------------------------------------------------");
+    }
+    public void preOrder(){
+        System.out.println("Raiz: "+raiz.getInfo());
+        preOrder(this.raiz);
+        System.out.println("       ");
+        System.out.println("----------------------------------------------------------");
+    }
+    public void posOrder(){
+        posOrder(this.raiz);
+        System.out.println("       ");
+        System.out.println("----------------------------------------------------------");
+    }
+
+    private void inOrder(Nodo a){
+        if (a.getMenores() != null){
+            inOrder(a.getMenores());
+        }
+        System.out.print(a.getInfo()+" | ");
+        if (a.getMayores() != null){
+           inOrder( a.getMayores());
+        }
+    }
+
+    private void posOrder(Nodo a){
+        if (a.getMenores() != null){
+            inOrder(a.getMenores());
+        }
+        if (a.getMayores() != null){
+            inOrder( a.getMayores());
+        }
+        System.out.print(a.getInfo()+" | ");
+    }
+
+    private void preOrder(Nodo a){
+        System.out.print(a.getInfo()+" | ");
+        if (a.getMayores() != null){
+            inOrder(a.getMayores());
+        }
+        if (a.getMenores() != null){
+            inOrder(a.getMenores());
+        }
+    }
+
     public void insert(Integer a){
-        this.raiz.insertar(a);
+        insertar(a, raiz);
+    }
+
+    private boolean insertar(int n, Nodo a) { // agrega ordenado con busqueda recursiva segun el nodo y los punteros del mismo
+        if (n < a.getInfo()) {
+            if (a.getMenores() == null) {
+                a.setMenores(new Nodo(n));
+            } else {
+                insertar(n, a.getMenores());
+            }
+            return true;
+        } else if (n > a.getInfo()) {
+            if(n > a.getInfo()){
+                if (a.getMayores() == null){
+                    a.setMayores(new Nodo(n));
+                }
+                else insertar(n, a.getMayores());
+            }
+            return true;
+        }else{
+            a.setInfo(n);
+            return false;
+        }
     }
 
     public boolean isEmpty(){
         return raiz == null;
     }
 
-    public void inOrder(){
-        this.raiz.inOrder();
+    public boolean hasElem(int n){
+        return hasElem(n, this.raiz);
     }
 
-    public boolean hasElem(int n){
-        return this.raiz.hasElem(n);
+    private boolean hasElem(int n, Nodo a) { //busqueda recursiva que devuelve un boolean si  encuentra el elemento en el arbol
+        if(a.getInfo() == n) {// la complejidad es O(n)
+            return true;
+        }else {
+            if(n < a.getInfo()) {
+                if(a.getMenores() == null) {
+                    return false;
+                }else {
+                    return hasElem(n, a.getMenores());
+                }
+            }else {
+                if(a.getMayores() == null) {
+                    return false;
+                }else {
+                    return hasElem(n, a.getMayores());
+                }
+            }
+        }
     }
 
     public ArrayList<Integer> getFrontera(){
-        return this.raiz.getFrontera();
+        return getFrontera(this.raiz);
     }
-    //element at lvl complejidad o(n)
+
+    private ArrayList<Integer> getFrontera(Nodo a){
+        ArrayList<Integer> aux = new ArrayList<>();
+        if(a.getMenores() != null) {
+            aux.addAll(getFrontera(a.getMenores()));
+            if(a.getMayores() != null) {
+                aux.addAll(getFrontera(a.getMayores()));
+            }
+        } else if(a.getMayores() != null) {
+            aux.addAll(getFrontera(a.getMayores()));
+        }else {
+            aux.add(a.getInfo());
+        }
+        return aux;
+    }
 
     public int getMaxElem(){
-       return this.raiz.getMaxElem();
+       return getMaxElem(this.raiz);
+    }
+
+    private int getMaxElem(Nodo a){
+        if (a.getMayores() != null){
+            return getMaxElem(a.getMayores());
+        }else{
+            return a.getInfo();
+        }
     }
 
     public int getAltura(){
-        return this.raiz.getAltura(raiz);
+        return getAltura(raiz);
     }
 
-    public ArrayList<Integer> getElementAtLvl(int n){
-        return raiz.getElementAtLvl(n, 0);
+    private int getAltura(Nodo a) {
+        if (a == null) {
+            return 0;
+        }
+        int men = getAltura(a.getMenores());
+        int may = getAltura(a.getMayores());
+        if (men>may){
+            return men+1;
+        }
+        else {
+            return may+1;
+        }
+    }
+
+    public ArrayList<Integer> getElementAtLvl(int n, int lvl){
+        return getElementAtLvl(n, lvl, raiz);
+    }
+
+    private ArrayList<Integer> getElementAtLvl(int n, int nivel, Nodo a){
+        ArrayList<Integer> lista = new ArrayList<>();
+        if(n == nivel){
+            lista.add(a.getInfo());
+            return lista;
+        }else{
+            if(a.getMayores() != null){
+                lista.addAll(getElementAtLvl(n, nivel+1, a.getMayores()));
+                if(a.getMenores() != null){
+                    lista.addAll((getElementAtLvl(n, nivel+1, a.getMenores())));
+                }
+            }else if (a.getMenores() != null){
+                lista.addAll((getElementAtLvl(n, nivel+1, a.getMenores())));
+                if(a.getMayores() != null){
+                    lista.addAll(getElementAtLvl(n, nivel+1, a.getMayores()));
+                }
+            }
+            return lista;
+        }
+
+    }
+
+    private int getMinElem(Nodo a){
+        if (a.getMenores() != null){
+            return getMinElem(a.getMenores());
+        }else{
+            return a.getInfo();
+        }
     }
 
     public ArrayList<Integer> getRamaMasLarga(){
-        return this.raiz.getRamaMasLarga(raiz);
+        return getRamaMasLarga(raiz);
     }
+
+    private ArrayList<Integer> getRamaMasLarga(Nodo a) {
+        if (a == null){
+            return new ArrayList<Integer>();
+        }
+        ArrayList<Integer> men = getRamaMasLarga(a.getMenores());
+        ArrayList<Integer> may = getRamaMasLarga(a.getMayores());
+        if (men.size()>may.size()){
+            men.add(a.getInfo());
+            return men;
+        }
+        else {
+            may.add(a.getInfo());
+            return may;
+        }
+    }
+
     public boolean eliminar(int n){
-         return this.raiz.eliminar(n);
+         return eliminar(n, raiz);
+    }
+
+    private boolean eliminar(int n, Nodo a){
+        if (a.getInfo() == n){
+            return eliminarRaiz(a, n);
+        }else{
+            Nodo aux = anteriorAEliminar(n, a);
+            if (n > aux.getInfo()){
+                if (esHoja(aux.getMayores())){
+                    aux.setMayores(null);
+                    return true;
+                }else if (esRaiz(aux.getMayores())){
+                    return eliminar(n, aux.getMayores());
+                }else{
+                    aux.setMayores(esRama(aux.getMayores()));
+                    return true;
+                }
+            }else{
+                if (esHoja(aux.getMenores())){
+                    aux.setMenores(null);
+                    return true;
+                }else if (esRaiz(aux.getMenores())){
+                    return eliminar(n, aux.getMenores());
+                }else{
+                    aux.setMenores(esRama(aux.getMenores()));
+                    return true;
+                }
+            }
+        }
+    }
+
+    private boolean esHoja(Nodo a){ //devuelve un boolean si no tiene hijos
+        return a.getMayores() == null && a.getMenores() == null;
+    }
+
+    private boolean esRaiz(Nodo a){ //devuelve boolean si tiene ambos hijos
+        return a.getMayores() != null && a.getMenores() != null;
+    }
+
+    private Nodo esRama(Nodo a){ //devuelve un puntero al nodo siguiente a ser reemplazado
+        if (a.getMayores() == null || a.getMenores() == null){
+            if(a.getMayores() == null){
+                return a.getMenores();
+            }else{
+                return a.getMayores();
+            }
+        }else return null;
+    }
+
+    private boolean eliminarRaiz(Nodo a, int b){ // cambia el valor de la raiz por el mas izquierdo del primer derecho
+        if (a.getInfo() == b){                   // busca el nodo a eliminar a partir de esta raiz y pregunta
+            if(esRaiz(a)){                      //si este es una rama o una hoja y lo elimina
+                int n = getMinElem(a.getMayores());
+                Nodo aux = anteriorAEliminar(n, a);
+                a.setInfo(n);
+                if(esHoja(aux.getMenores())){
+                    aux.setMenores(null);
+                    return true;
+                }else{ aux.setMayores(esRama(aux.getMayores())); return true; }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+
+    private Nodo anteriorAEliminar(int n, Nodo a) {//algoritmo de busqueda que devuelve un puntero al nodo anterior
+        if (n > a.getInfo()){                // que se debe eliminar
+            if (a.getMayores() != null){
+                if (a.getMayores().getInfo() == n){
+                    return a;
+                }else{
+                    return anteriorAEliminar(n, a.getMayores());
+                }
+            }else{
+                return null;
+            }
+        }else if(n< a.getInfo()){
+            if (a.getMenores() != null){
+                if(a.getMenores().getInfo() == n){
+                    return a;
+                }else{
+                    return anteriorAEliminar(n, a.getMenores());
+                }
+            }else{
+                return null;
+            }
+        }else{
+            return a;
+        }
     }
 
 

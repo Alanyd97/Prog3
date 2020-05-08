@@ -1,29 +1,39 @@
 package sample;
-
+import java.io.BufferedReader;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
     public static void main(String[] args){
+        Arbol arbol = new Arbol();
+        arbol.generarArbolRandom();
+        //Recorridos en Orden
+        System.out.println("InOrder:");
+            arbol.inOrder();
+        System.out.println("PreOrder:  ");
+            arbol.preOrder();
+        System.out.println("PosOrder:  ");
+            arbol.posOrder();
 
-        Arbol arbol = new Arbol(20);
-        arbol.insert(12);
-        arbol.insert(15);
-        arbol.insert(30);
-        arbol.insert(50);
-        arbol.insert(2);
-        arbol.insert(8);
-        arbol.insert(29);
-        arbol.insert(10);
-        arbol.insert(28);
-        arbol.insert(60);
-        arbol.insert(26);
-
-        arbol.inOrder();
-        System.out.println(arbol.hasElem(15));
-
-        System.out.println(arbol.eliminar(8)+" ||");
-
-        arbol.inOrder();
-
+        //Conslutas simples
+        System.out.println("Is empty: "+arbol.isEmpty());
+        System.out.println("Get Max Element: "+arbol.getMaxElem());
+        int n = 4;
+        System.out.println("Elemento a buscar "+n);
+        System.out.println("Has element: "+arbol.hasElem(n));
+        System.out.println("Altura:"+ arbol.getAltura());
+        System.out.println("----------------------------------------------------------");
+        System.out.println("Fronteras:");
+        for (Integer a: arbol.getFrontera()
+             ) {
+            System.out.print(a+ "/");
+        }
+        System.out.println(" ");
+        System.out.println("----------------------------------------------------------");
+        System.out.println("Get longest branch:");
+        for (Integer a: arbol.getRamaMasLarga()
+             ) {
+            System.out.print(a+" | ");
+        }System.out.println(" ");
     }
 }
