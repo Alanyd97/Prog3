@@ -9,22 +9,31 @@ public class Arbol {
     public Arbol() {raiz = null;}
 
     //getter & setter
-    public Object getRaiz() {return raiz.getInfo(); }
+    //Complejidad O(1) yaque accede a un solo elemento
+    public Integer getRaiz() {
+        if (isEmpty()){
+            return raiz.getInfo();
+        }else return -1;
+    }
 
     public void generarArbolRandom(){
         int contador = 15;
         if (isEmpty()){
             raiz = new Nodo(ThreadLocalRandom.current().nextInt(0, 40+1));
         }
-        while (contador != 1){
+        while (contador != 0){
             int n = ThreadLocalRandom.current().nextInt(0, 40+1);
-            if (insertar(n, raiz)){
+            if (!(this.hasElem(n))){
+                System.out.println("elemento"+n);
+                insert(n);
                 contador--;
             }
 
         }
     }
 
+    //Todos y cada uno de estos 3 recorridos tienen como complejidad
+    // o(n)/n=cantidad nodos
     public void inOrder(){
         inOrder(this.raiz);
         System.out.println("       ");
@@ -41,6 +50,7 @@ public class Arbol {
         System.out.println("       ");
         System.out.println("----------------------------------------------------------");
     }
+
 
     private void inOrder(Nodo a){
         if (a.getMenores() != null){
@@ -76,14 +86,15 @@ public class Arbol {
         insertar(a, raiz);
     }
 
-    private boolean insertar(int n, Nodo a) { // agrega ordenado con busqueda recursiva segun el nodo y los punteros del mismo
+    // Complejidad O(log n), en el peor caso debera recorrer una parte del
+    // arbol, menores o mayores, para encontrar la info
+    private void insertar(int n, Nodo a) { // agrega ordenado con busqueda recursiva segun el nodo y los punteros del mismo
         if (n < a.getInfo()) {
             if (a.getMenores() == null) {
                 a.setMenores(new Nodo(n));
             } else {
                 insertar(n, a.getMenores());
             }
-            return true;
         } else if (n > a.getInfo()) {
             if(n > a.getInfo()){
                 if (a.getMayores() == null){
@@ -91,23 +102,23 @@ public class Arbol {
                 }
                 else insertar(n, a.getMayores());
             }
-            return true;
         }else{
             a.setInfo(n);
-            return false;
         }
     }
 
+    //complejidad o(1) ya que accede a un solo elemento
     public boolean isEmpty(){
         return raiz == null;
     }
 
+    // la complejidad es O(n) en el peor caso recorre todo el arbol
     public boolean hasElem(int n){
         return hasElem(n, this.raiz);
     }
 
     private boolean hasElem(int n, Nodo a) { //busqueda recursiva que devuelve un boolean si  encuentra el elemento en el arbol
-        if(a.getInfo() == n) {// la complejidad es O(n)
+        if(a.getInfo() == n) {
             return true;
         }else {
             if(n < a.getInfo()) {
@@ -126,10 +137,12 @@ public class Arbol {
         }
     }
 
+
     public ArrayList<Integer> getFrontera(){
         return getFrontera(this.raiz);
     }
 
+    //O(n)/n=cantidad de nodos, si o si recorre el arbol entero
     private ArrayList<Integer> getFrontera(Nodo a){
         ArrayList<Integer> aux = new ArrayList<>();
         if(a.getMenores() != null) {
@@ -149,6 +162,7 @@ public class Arbol {
        return getMaxElem(this.raiz);
     }
 
+    //O(n)/n= cantidad de nodos de la rama mas menor del derecho
     private int getMaxElem(Nodo a){
         if (a.getMayores() != null){
             return getMaxElem(a.getMayores());
@@ -157,6 +171,8 @@ public class Arbol {
         }
     }
 
+    //O(n)/n= cantidad de nodos, ya que en el peor de los casos
+    //recorreria todo el arbol hasta encontrar la altura
     public int getAltura(){
         return getAltura(raiz);
     }
@@ -175,8 +191,9 @@ public class Arbol {
         }
     }
 
-    public ArrayList<Integer> getElementAtLvl(int n, int lvl){
-        return getElementAtLvl(n, lvl, raiz);
+    //O(n) en el peor caso seria n=Altura entonces recorreria todo el arbol
+    public ArrayList<Integer> getElementAtLvl(int lvl){
+        return getElementAtLvl(lvl,0, raiz);
     }
 
     private ArrayList<Integer> getElementAtLvl(int n, int nivel, Nodo a){
@@ -201,6 +218,7 @@ public class Arbol {
 
     }
 
+    //ver getMinElem
     private int getMinElem(Nodo a){
         if (a.getMenores() != null){
             return getMinElem(a.getMenores());
@@ -209,6 +227,8 @@ public class Arbol {
         }
     }
 
+    //o(n)/n=cantidad de nodos
+    //el peor caso es que el arbol sea similar a una lista vinculada
     public ArrayList<Integer> getRamaMasLarga(){
         return getRamaMasLarga(raiz);
     }
@@ -229,9 +249,12 @@ public class Arbol {
         }
     }
 
+
+    //o(log n) en su caso es buscar en una u otra rama del arbol
     public boolean eliminar(int n){
          return eliminar(n, raiz);
     }
+
 
     private boolean eliminar(int n, Nodo a){
         if (a.getInfo() == n){
@@ -297,7 +320,6 @@ public class Arbol {
             return false;
         }
     }
-
 
     private Nodo anteriorAEliminar(int n, Nodo a) {//algoritmo de busqueda que devuelve un puntero al nodo anterior
         if (n > a.getInfo()){                // que se debe eliminar
