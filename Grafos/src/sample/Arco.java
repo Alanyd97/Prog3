@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.Objects;
+
 public class Arco<T> {
 
     private int verticeOrigen;
@@ -22,6 +24,15 @@ public class Arco<T> {
 
     public T getEtiqueta() {
         return etiqueta;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Arco)) return false;
+        Arco<?> arco = (Arco<?>) o;
+        return getVerticeOrigen() == arco.getVerticeOrigen() &&
+                getVerticeDestino() == arco.getVerticeDestino();
     }
 
 }
