@@ -57,13 +57,16 @@ public class Main {
         }
         try{
             Integer borrar;
-            System.out.println("Ingresar elemento a borrar: ");
             borrar = new Integer(entrada.readLine());
-            System.out.println("Elementos previos:");
-            arbol.inOrder();
-            System.out.println("Elementos actuales: ");
-            System.out.println("Borrado: "+arbol.eliminar(borrar));
-            arbol.inOrder();
+            while (!(borrar == 0)){
+                System.out.println("Ingresar elemento a borrar: ");
+                borrar = new Integer(entrada.readLine());
+                System.out.println("Elementos previos:");
+                arbol.inOrder();
+                System.out.println("Elementos actuales: ");
+                System.out.println("Borrado: "+arbol.eliminar(borrar));
+                arbol.inOrder();
+            }
         }catch (Exception e){
             System.out.println(e);
         }

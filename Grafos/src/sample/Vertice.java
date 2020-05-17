@@ -87,7 +87,8 @@ public class Vertice<T> {
     }
 
     public ArrayList<Arco<T>> getArcos(){
-        return arcos;
+        ArrayList<Arco<T>> aux = arcos;
+        return aux;
     }
 
     public void eliminarArco(int n){

@@ -1,6 +1,8 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Arbol {
@@ -230,7 +232,9 @@ public class Arbol {
     //o(n)/n=cantidad de nodos
     //el peor caso es que el arbol sea similar a una lista vinculada
     public ArrayList<Integer> getRamaMasLarga(){
-        return getRamaMasLarga(raiz);
+        ArrayList<Integer> a = getRamaMasLarga(raiz);
+        Collections.reverse(a);
+        return a;
     }
 
     private ArrayList<Integer> getRamaMasLarga(Nodo a) {
@@ -248,7 +252,6 @@ public class Arbol {
             return may;
         }
     }
-
 
     //o(log n) en su caso es buscar en una u otra rama del arbol
     public boolean eliminar(int n){
@@ -303,7 +306,7 @@ public class Arbol {
         }else return null;
     }
 
-    private boolean eliminarRaiz(Nodo a, int b){ // cambia el valor de la raiz por el mas izquierdo del primer derecho
+    private boolean eliminarRaiz(Nodo a, int b){  // cambia el valor de la raiz por el mas izquierdo del primer derecho
         if (a.getInfo() == b){                   // busca el nodo a eliminar a partir de esta raiz y pregunta
             if(esRaiz(a)){                      //si este es una rama o una hoja y lo elimina
                 int n = getMinElem(a.getMayores());

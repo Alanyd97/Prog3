@@ -7,6 +7,9 @@ import java.util.Iterator;
 
 public class GrafoDirigido<T> implements Grafo<T> {
     private ArrayList<Vertice> vertices;
+    private int tiempo;
+    private final int visitado = 1;
+    private  final int noVisitado = 0;
 
     public GrafoDirigido(){
         vertices = new ArrayList<>();
@@ -163,6 +166,61 @@ public class GrafoDirigido<T> implements Grafo<T> {
             if (v.getId() == verticeId){
                 a.addAll(v.getArcos());
                 return a.iterator();
+            }
+        }
+        return null;
+    }
+
+
+
+    //Blanco(No visitado) =-1
+    //Amarillos(Visitado no calculado) = 0
+    //Negro(Visitado) = 1
+    public void setBlancos(){
+        for (Vertice v: vertices){
+            v.setColor(noVisitado);
+        }
+    }
+
+    public ArrayList<Integer> dfs(int n) {
+        ArrayList<Integer> camino = new ArrayList<>();
+        ArrayList<Integer> mayor = new ArrayList<>();
+        camino.add(n);
+        int[] maxDuracion = new int[1];
+        maxDuracion[0] = 0;
+        dfs_visit(n, camino, 0, mayor, maxDuracion);
+        return mayor;
+
+    }
+
+    // O(vertices) ya que va a recorrer todos los vertices de grafo
+    private void dfs_visit(int actual, ArrayList<Integer> camino, int suma,ArrayList<Integer> mayor, int[] maxDuracion) {
+        if (getVertice(actual).getArcos().size() != 0) {
+            Iterator<Arco<T>> arcos = obtenerArcos(actual);
+            while (arcos.hasNext()) {
+                Arco<T> a = arcos.next();
+                camino.add(a.getVerticeDestino());
+                suma += (Integer) a.getEtiqueta();
+                suma += getVertice(a.getVerticeDestino()).getValor();
+                dfs_visit(a.getVerticeDestino(), camino, suma, mayor, maxDuracion);
+                camino.remove(camino.size()-1);
+                suma -= (Integer) a.getEtiqueta();
+                suma -= getVertice(a.getVerticeDestino()).getValor();
+            }
+        } else {
+            System.out.println(suma);
+            if (suma > maxDuracion[0]) {
+                maxDuracion[0] = suma;
+                mayor.clear();
+                mayor.addAll(camino);
+            }
+        }
+    }
+
+    private Vertice getVertice(int verticeid){
+        for (Vertice v: vertices ){
+            if (v.getId() == verticeid){
+                return v;
             }
         }
         return null;
