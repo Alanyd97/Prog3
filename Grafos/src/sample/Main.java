@@ -52,6 +52,13 @@ public class Main {
         gd.agregarArco(8, 9, 4);
         gd.agregarArco(9, 10, 1);
 
+        System.out.println("______________________________");
+        System.out.println("Secuencia de ejecucion critica: ");
+        ArrayList<Integer> dfs = gd.dfs(0);
+        for(Integer as: dfs){
+            System.out.println("Vertices:"+as);
+        }
+        System.out.println("______________________________");
         System.out.println("cantidad de vertices: " + gd.cantidadVertices());
         System.out.println("cantidad de arcos: " + gd.cantidadArcos());
         System.out.println("Contiene vertice: 5  " + gd.contieneVertice(5));
@@ -95,7 +102,7 @@ public class Main {
         while (n.hasNext()){
             System.out.print(n.next()+" | ");
         }
-        //gd.borrarVertice(6);
+        gd.borrarVertice(6);
         System.out.println("    ");
         System.out.println("Vertices actuales");
         n = gd.obtenerVertices();
@@ -112,7 +119,7 @@ public class Main {
             System.out.println("Ori:"+a.getVerticeOrigen()+" Dest:"+a.getVerticeDestino());
         }
         System.out.println("------------------------------");
-        //gd.borrarArco(11,12);
+        gd.borrarArco(11,12);
         System.out.println("Arcos borrados: 11, 12");
         System.out.println("Arcos actuales");
         n = gd.obtenerArcos();
@@ -121,11 +128,7 @@ public class Main {
             Arco a = (Arco) n.next();
             System.out.println("Ori:"+a.getVerticeOrigen()+" Dest:"+a.getVerticeDestino());
         }
-        System.out.println("______________________________");
-        ArrayList<Integer> dfs = gd.dfs(0);
-        for(Integer as: dfs){
-            System.out.println("nose:"+as);
-        }
+
     }
 
 

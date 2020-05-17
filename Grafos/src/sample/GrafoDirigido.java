@@ -1,26 +1,22 @@
 package sample;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 public class GrafoDirigido<T> implements Grafo<T> {
     private ArrayList<Vertice> vertices;
-    private int tiempo;
-    private final int visitado = 1;
-    private  final int noVisitado = 0;
 
     public GrafoDirigido(){
         vertices = new ArrayList<>();
     }
 
-    //
+    //Complejidad o(1) acceso al final del array para agregarlo
     @Override
     public void agregarVertice(int verticeId) {
         vertices.add(new Vertice(verticeId));
     }
 
+    //complejidad o(2v + a) a= cantidad de arcos v cantidad de vertices
     @Override
     public void borrarVertice(int verticeId) {
         Vertice aux = new Vertice(0);
@@ -38,14 +34,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
             v.eliminarArco(n);
         }
     }
-    //
+
+    //o(v) v=cant vert
     public void setValores (ArrayList<Integer> valores){
         for (int i = 0; i < vertices.size()-1 ; i++) {
             vertices.get(i).setValor(valores.get(i));
         }
     }
 
-    //
+    //o(3v) v=cant vert
     @Override
     public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
         Vertice v1 = new Vertice(verticeId1);
@@ -66,21 +63,21 @@ public class GrafoDirigido<T> implements Grafo<T> {
         return -111;
     }
 
-
+    //O(v + a)  v=cant vert a=cant arc de v
     @Override
     public void borrarArco(int verticeId1, int verticeId2) {
         Vertice aux = vertices.get(vertices.indexOf(new Vertice(verticeId1)));
         aux.eliminarArco(verticeId2);
     }
 
-    //
+    //O(v)  v=cant vert
     @Override
     public boolean contieneVertice(int verticeId) {
         Vertice<T> v = new Vertice<>(verticeId);
         return vertices.contains(v);
     }
 
-    //
+    //O(v + a) v=cant vert a= cant arcos de v
     @Override
     public boolean existeArco(int verticeId1, int verticeId2) {
         for (Vertice v: vertices) {
@@ -91,7 +88,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
         return false;
     }
 
-    //
+    //O(v + a) v=cant vert a= cant arcos de v
     @Override
     public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
         for (Vertice v : vertices) {
@@ -103,13 +100,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
 
-    //
+    // 0(1)
     @Override
     public int cantidadVertices() {
         return vertices.size();
     }
 
-    //
+    //O(v + a) v=cant vert a= cant arcos de v
     @Override
     public int cantidadArcos() {
         int count = 0;
@@ -120,7 +117,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
 
-    //
+    // O(v) v = cant vert
     @Override
     public Iterator<Integer> obtenerVertices() {
         ArrayList<Integer> aux = new ArrayList<>();
@@ -131,7 +128,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
 
-    //
+    //O(v + a) v=cant vert a= cant arcos de v
     @Override
     public Iterator<Integer> obtenerAdyacentes(int verticeId) {
         ArrayList<Integer> arcos = new ArrayList<>();
@@ -148,7 +145,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
         return null;
     }
 
-    //
+    //O(v) v=cant vert
     @Override
     public Iterator<Arco<T>> obtenerArcos() {
         ArrayList<Arco<T>> arcos = new ArrayList<>();
@@ -158,7 +155,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
         return arcos.iterator();
     }
 
-    //
+    //O(v) v= cant vert
     @Override
     public Iterator<Arco<T>> obtenerArcos(int verticeId)    {
         ArrayList<Arco<T>> a = new ArrayList<>();
@@ -169,17 +166,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
             }
         }
         return null;
-    }
-
-
-
-    //Blanco(No visitado) =-1
-    //Amarillos(Visitado no calculado) = 0
-    //Negro(Visitado) = 1
-    public void setBlancos(){
-        for (Vertice v: vertices){
-            v.setColor(noVisitado);
-        }
     }
 
     public ArrayList<Integer> dfs(int n) {
@@ -208,7 +194,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
                 suma -= getVertice(a.getVerticeDestino()).getValor();
             }
         } else {
-            System.out.println(suma);
             if (suma > maxDuracion[0]) {
                 maxDuracion[0] = suma;
                 mayor.clear();
