@@ -13,7 +13,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
     //Complejidad o(1) acceso al final del array para agregarlo
     @Override
     public void agregarVertice(int verticeId) {
-        vertices.add(new Vertice(verticeId));
+        if (this.contieneVertice(verticeId))
+            vertices.add(new Vertice(verticeId));
     }
 
     //complejidad o(2v + a) a= cantidad de arcos v cantidad de vertices
@@ -45,12 +46,14 @@ public class GrafoDirigido<T> implements Grafo<T> {
     //o(3v) v=cant vert
     @Override
     public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-        Vertice v1 = new Vertice(verticeId1);
-        Vertice v2 = new Vertice(verticeId2);
-        if (vertices.contains(v1) && vertices.contains(v2)){
+        if (existeArco(verticeId1, verticeId2)){
+            Vertice v1 = new Vertice(verticeId1);
+            Vertice v2 = new Vertice(verticeId2);
+            if (vertices.contains(v1) && vertices.contains(v2)){
                 Arco a = new Arco(verticeId1, verticeId2, etiqueta);
                 Vertice v = vertices.get(getI(v1));
                 v.addArco(a);
+            }
         }
     }
 

@@ -56,8 +56,7 @@ public class Main {
             System.out.println(e);
         }
         try{
-            Integer borrar;
-            borrar = new Integer(entrada.readLine());
+            Integer borrar =1;
             while (!(borrar == 0)){
                 System.out.println("Ingresar elemento a borrar: ");
                 borrar = new Integer(entrada.readLine());

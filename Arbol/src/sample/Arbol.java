@@ -85,7 +85,8 @@ public class Arbol {
     }
 
     public void insert(Integer a){
-        insertar(a, raiz);
+        if (isEmpty()) raiz = new Nodo(a);
+        else insertar(a, raiz);
     }
 
     // Complejidad O(log n), en el peor caso debera recorrer una parte del
@@ -221,11 +222,11 @@ public class Arbol {
     }
 
     //ver getMinElem
-    private int getMinElem(Nodo a){
+    private Nodo getMinElem(Nodo a){
         if (a.getMenores() != null){
             return getMinElem(a.getMenores());
         }else{
-            return a.getInfo();
+            return a;
         }
     }
 
@@ -253,101 +254,35 @@ public class Arbol {
         }
     }
 
-    //o(log n) en su caso es buscar en una u otra rama del arbol
-    public boolean eliminar(int n){
-         return eliminar(n, raiz);
-    }
-
-
-    private boolean eliminar(int n, Nodo a){
-        if (a.getInfo() == n){
-            return eliminarRaiz(a, n);
-        }else{
-            Nodo aux = anteriorAEliminar(n, a);
-            if (n > aux.getInfo()){
-                if (esHoja(aux.getMayores())){
-                    aux.setMayores(null);
-                    return true;
-                }else if (esRaiz(aux.getMayores())){
-                    return eliminar(n, aux.getMayores());
-                }else{
-                    aux.setMayores(esRama(aux.getMayores()));
-                    return true;
-                }
-            }else{
-                if (esHoja(aux.getMenores())){
-                    aux.setMenores(null);
-                    return true;
-                }else if (esRaiz(aux.getMenores())){
-                    return eliminar(n, aux.getMenores());
-                }else{
-                    aux.setMenores(esRama(aux.getMenores()));
-                    return true;
-                }
-            }
-        }
-    }
-
-    private boolean esHoja(Nodo a){ //devuelve un boolean si no tiene hijos
-        return a.getMayores() == null && a.getMenores() == null;
-    }
-
-    private boolean esRaiz(Nodo a){ //devuelve boolean si tiene ambos hijos
-        return a.getMayores() != null && a.getMenores() != null;
-    }
-
-    private Nodo esRama(Nodo a){ //devuelve un puntero al nodo siguiente a ser reemplazado
-        if (a.getMayores() == null || a.getMenores() == null){
-            if(a.getMayores() == null){
-                return a.getMenores();
-            }else{
-                return a.getMayores();
-            }
-        }else return null;
-    }
-
-    private boolean eliminarRaiz(Nodo a, int b){  // cambia el valor de la raiz por el mas izquierdo del primer derecho
-        if (a.getInfo() == b){                   // busca el nodo a eliminar a partir de esta raiz y pregunta
-            if(esRaiz(a)){                      //si este es una rama o una hoja y lo elimina
-                int n = getMinElem(a.getMayores());
-                Nodo aux = anteriorAEliminar(n, a);
-                a.setInfo(n);
-                if(esHoja(aux.getMenores())){
-                    aux.setMenores(null);
-                    return true;
-                }else{ aux.setMayores(esRama(aux.getMayores())); return true; }
-            }else{
-                return false;
-            }
-        }else{
+    
+    public boolean eliminar(Integer n) {
+        if (isEmpty()) {
             return false;
+        } else{
+            return elimina(raiz, n) != null;
         }
     }
 
-    private Nodo anteriorAEliminar(int n, Nodo a) {//algoritmo de busqueda que devuelve un puntero al nodo anterior
-        if (n > a.getInfo()){                // que se debe eliminar
-            if (a.getMayores() != null){
-                if (a.getMayores().getInfo() == n){
-                    return a;
-                }else{
-                    return anteriorAEliminar(n, a.getMayores());
-                }
-            }else{
-                return null;
+    private Nodo elimina(Nodo a, Integer value) {
+        if (a.getInfo() > value) {
+            a.setMenores(elimina(a.getMenores(), value));
+        } else if (a.getInfo() < value) {
+            a.setMayores(elimina(a.getMayores(), value));
+        } else {
+            if (a.getMenores() != null && a.getMayores() != null) {
+                Nodo tmp = a;
+                Nodo rsn = this.getMinElem(tmp.getMayores());
+                a.setInfo(rsn.getInfo());
+                a.setMayores(elimina(a.getMayores(), rsn.getInfo()));
+            } else if (a.getMenores() != null) {
+                a = a.getMenores();
+            } else if (a.getMayores() != null) {
+                a = a.getMayores();
+            } else {
+                a = null;
             }
-        }else if(n< a.getInfo()){
-            if (a.getMenores() != null){
-                if(a.getMenores().getInfo() == n){
-                    return a;
-                }else{
-                    return anteriorAEliminar(n, a.getMenores());
-                }
-            }else{
-                return null;
-            }
-        }else{
-            return a;
         }
+        return a;
     }
 
 
