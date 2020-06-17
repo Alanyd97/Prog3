@@ -3,7 +3,7 @@ package sample;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class GrafoDirigido<T> implements Grafo<T> {
+public class GrafoDirigido implements Grafo{
     private ArrayList<Vertice> vertices;
 
     public GrafoDirigido(){
@@ -45,7 +45,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     //o(3v) v=cant vert
     @Override
-    public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
+    public void agregarArco(int verticeId1, int verticeId2, int etiqueta) {
         if (existeArco(verticeId1, verticeId2)){
             Vertice v1 = new Vertice(verticeId1);
             Vertice v2 = new Vertice(verticeId2);
@@ -76,7 +76,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
     //O(v)  v=cant vert
     @Override
     public boolean contieneVertice(int verticeId) {
-        Vertice<T> v = new Vertice<>(verticeId);
+        Vertice v = new Vertice(verticeId);
         return vertices.contains(v);
     }
 
@@ -93,7 +93,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     //O(v + a) v=cant vert a= cant arcos de v
     @Override
-    public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
+    public Arco obtenerArco(int verticeId1, int verticeId2) {
         for (Vertice v : vertices) {
             if (v.hasArco(verticeId1, verticeId2)){
                 return v.getArco(verticeId1,verticeId2);
@@ -137,9 +137,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
         ArrayList<Integer> arcos = new ArrayList<>();
         for (Vertice v: vertices) {
             if (v.getId() == verticeId){
-                ArrayList<Arco<T>> a = new ArrayList<>();
+                ArrayList<Arco> a = new ArrayList<>();
                 a = v.getArcos();
-                for (Arco<T> arc: a){
+                for (Arco arc: a){
                     arcos.add(arc.getVerticeDestino());
                 }
                 return arcos.iterator();
@@ -150,8 +150,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     //O(v) v=cant vert
     @Override
-    public Iterator<Arco<T>> obtenerArcos() {
-        ArrayList<Arco<T>> arcos = new ArrayList<>();
+    public Iterator<Arco> obtenerArcos() {
+        ArrayList<Arco> arcos = new ArrayList<>();
         for (Vertice v: vertices) {
             arcos.addAll(v.getArcos());
         }
@@ -160,8 +160,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     //O(v) v= cant vert
     @Override
-    public Iterator<Arco<T>> obtenerArcos(int verticeId)    {
-        ArrayList<Arco<T>> a = new ArrayList<>();
+    public Iterator<Arco> obtenerArcos(int verticeId)    {
+        ArrayList<Arco> a = new ArrayList<>();
         for (Vertice v : vertices) {
             if (v.getId() == verticeId){
                 a.addAll(v.getArcos());
@@ -185,9 +185,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
     // O(vertices) ya que va a recorrer todos los vertices de grafo
     private void dfs_visit(int actual, ArrayList<Integer> camino, int suma,ArrayList<Integer> mayor, int[] maxDuracion) {
         if (getVertice(actual).getArcos().size() != 0) {
-            Iterator<Arco<T>> arcos = obtenerArcos(actual);
+            Iterator<Arco> arcos = obtenerArcos(actual);
             while (arcos.hasNext()) {
-                Arco<T> a = arcos.next();
+                Arco a = arcos.next();
                 camino.add(a.getVerticeDestino());
                 suma += (Integer) a.getEtiqueta();
                 suma += getVertice(a.getVerticeDestino()).getValor();

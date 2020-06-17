@@ -2,13 +2,13 @@ package sample;
 
 import java.util.Objects;
 
-public class Arco<T> {
+public class Arco {
 
     private int verticeOrigen;
     private int verticeDestino;
-    private T etiqueta;
+    private int etiqueta;
 
-    public Arco(int verticeOrigen, int verticeDestino, T etiqueta) {
+    public Arco(int verticeOrigen, int verticeDestino, int etiqueta) {
         this.verticeOrigen = verticeOrigen;
         this.verticeDestino = verticeDestino;
         this.etiqueta = etiqueta;
@@ -22,7 +22,7 @@ public class Arco<T> {
         return verticeDestino;
     }
 
-    public T getEtiqueta() {
+    public int getEtiqueta() {
         return etiqueta;
     }
 
@@ -30,7 +30,7 @@ public class Arco<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Arco)) return false;
-        Arco<?> arco = (Arco<?>) o;
+        Arco arco = (Arco) o;
         return getVerticeOrigen() == arco.getVerticeOrigen() &&
                 getVerticeDestino() == arco.getVerticeDestino();
     }

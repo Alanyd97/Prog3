@@ -1,7 +1,7 @@
 package sample;
 import java.util.Iterator;
 
-public interface Grafo<T> {
+public interface Grafo {
 
     // Agrega un vertice
     public void agregarVertice(int verticeId);
@@ -10,7 +10,8 @@ public interface Grafo<T> {
     public void borrarVertice(int verticeId);
 
     // Agrega un arco con una etiqueta, que conecta el verticeId1 con el verticeId2
-    public void agregarArco(int verticeId1, int verticeId2, T etiqueta);
+    public void agregarArco(int verticeId1, int verticeId2, int etiqueta);
+
 
     // Borra el arco que conecta el verticeId1 con el verticeId2
     public void borrarArco(int verticeId1, int verticeId2);
@@ -22,7 +23,7 @@ public interface Grafo<T> {
     public boolean existeArco(int verticeId1, int verticeId2);
 
     // Obtener el arco que conecta el verticeId1 con el verticeId2
-    public Arco<T> obtenerArco(int verticeId1, int verticeId2);
+    public Arco obtenerArco(int verticeId1, int verticeId2);
 
     // Devuelve la cantidad total de vertices en el grafo
     public int cantidadVertices();
@@ -37,10 +38,10 @@ public interface Grafo<T> {
     public Iterator<Integer> obtenerAdyacentes(int verticeId);
 
     // Obtiene un iterador que me permite recorrer todos los arcos del grafo
-    public Iterator<Arco<T>> obtenerArcos();
+    public Iterator<Arco> obtenerArcos();
 
     // Obtiene un iterador que me permite recorrer todos los arcos que parten desde verticeId
-    public Iterator<Arco<T>> obtenerArcos(int verticeId);
+    public Iterator<Arco> obtenerArcos(int verticeId);
 
 
 }

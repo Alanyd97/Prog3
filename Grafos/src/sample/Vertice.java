@@ -1,12 +1,9 @@
 package sample;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
 
-public class Vertice<T> {
-    private ArrayList<Arco<T>> arcos;
+public class Vertice {
+    private ArrayList<Arco> arcos;
     private int valor;
     private int color;
     public int id;
@@ -14,7 +11,7 @@ public class Vertice<T> {
     private int f;
 
     public Vertice (int id){
-        arcos = new ArrayList<Arco<T>>();
+        arcos = new ArrayList<Arco>();
         this.id = id;
     }
 
@@ -39,12 +36,12 @@ public class Vertice<T> {
     }
 
     public boolean hasArco(int a, int b){
-        Arco arco = new Arco(a, b, null);
+        Arco arco = new Arco(a, b, 0);
         return arcos.contains(arco);
     }
 
-    public Arco<T> getArco(int a, int b){
-        for (Arco<T> arco : arcos ) {
+    public Arco getArco(int a, int b){
+        for (Arco arco : arcos ) {
             if (arco.getVerticeOrigen() == a && arco.getVerticeDestino() == b){
                 return arco;
             }
@@ -86,8 +83,8 @@ public class Vertice<T> {
         this.f = f;
     }
 
-    public ArrayList<Arco<T>> getArcos(){
-        ArrayList<Arco<T>> aux = arcos;
+    public ArrayList<Arco> getArcos(){
+        ArrayList<Arco> aux = arcos;
         return aux;
     }
 
