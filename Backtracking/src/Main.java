@@ -12,7 +12,7 @@ public class Main {
         ArrayList<Familia> familias = reader.read();
         for (Familia a: familias
              ) {
-            System.out.println(a);
+            //System.out.println(a);
         }
 
         CSVReader reader2 = new CSVReader("./data/familias-2.csv");
@@ -22,7 +22,7 @@ public class Main {
         Backtracking b = new Backtracking(familias);
         ArrayList<Familia> aux = new ArrayList<>();
         aux.addAll(familias);
-        b.backtracking(aux);
+        b.backtracking(aux , 1, new ArrayList<>());
 
     }
 }

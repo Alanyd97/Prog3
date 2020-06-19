@@ -8,6 +8,7 @@ public class Familia implements Comparable<Familia> {
     private int miembros;
     private int[] diasPreferidos;
     private int indicePreferido;
+    private int diaDesignado;
 
     public int getIndicePreferido() {
         return indicePreferido;
@@ -22,6 +23,8 @@ public class Familia implements Comparable<Familia> {
         this.miembros = miembros;
         this.diasPreferidos = diasPreferidos;
         this.indicePreferido = 0;
+        this.diaDesignado = -1;
+
     }
 
     /* Id de la familia */
@@ -29,6 +32,13 @@ public class Familia implements Comparable<Familia> {
         return id;
     }
 
+    public int getDiaDesignado() {
+        return diaDesignado;
+    }
+
+    public void setDiaDesignado(int diaDesignado) {
+        this.diaDesignado = diaDesignado;
+    }
 
     /* Retorna la cantidad de miembros de la familia. */
     public int miembros() {
@@ -46,14 +56,6 @@ public class Familia implements Comparable<Familia> {
         return preferenciaEn(indicePreferido);
     }
 
-    /* Dado un dia pasado por parametro, indica el orden de ese dia en el top 5 de preferencias.
-    Si el dia no forma parte de las preferencias del usuario, se retorna -1. */
-    public int indiceDePreferencia(int dia) {
-        for (int indice = 0; indice < diasPreferidos.length; indice++)
-            if (dia == diasPreferidos[indice])
-                return indice;
-        return -1;
-    }
 
     @Override
     public String toString() {
@@ -63,7 +65,7 @@ public class Familia implements Comparable<Familia> {
     @Override
     public int compareTo(Familia o) {
         //  o.miembros(),miembros this.preferenciaEn(0),o.preferenciaEn(0)
-        return Integer.compare(this.preferenciaEn(0),o.preferenciaEn(0));
+        return Integer.compare(miembros,o.miembros());
     }
 
     @Override
