@@ -18,11 +18,14 @@ public class Main {
         CSVReader reader2 = new CSVReader("./data/familias-2.csv");
 
         ArrayList<Familia> familias2 = reader2.read();
+        ArrayList<Dia> dias = new ArrayList<>();
 
-        Backtracking b = new Backtracking(familias);
-        ArrayList<Familia> aux = new ArrayList<>();
-        aux.addAll(familias);
-        b.backtracking(aux , 1, new ArrayList<>());
+        for (int i = 0; i < 10; i++) {
+            dias.add(new Dia(i+1));
+        }
+        Backtracking b = new Backtracking( familias,dias);
+
+        b.backtracking(familias, 7000);
 
     }
 }

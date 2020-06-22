@@ -27,6 +27,10 @@ public class Familia implements Comparable<Familia> {
 
     }
 
+    public boolean fueDesignada(){
+        return diaDesignado != -1;
+    }
+
     /* Id de la familia */
     public int getId() {
         return id;
@@ -48,7 +52,7 @@ public class Familia implements Comparable<Familia> {
 
     /* Dado un indice entre 0 y 2, retorna el día preferido por la familia para ese indice. */
     public int preferenciaEn(int indice) {
-        return this.diasPreferidos[indice];
+        return diasPreferidos[indice];
     }
 
     /* Retorna el día preferido de la familia */
@@ -67,6 +71,7 @@ public class Familia implements Comparable<Familia> {
         //  o.miembros(),miembros this.preferenciaEn(0),o.preferenciaEn(0)
         return Integer.compare(miembros,o.miembros());
     }
+
 
     @Override
     public boolean equals(Object o) {

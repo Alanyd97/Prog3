@@ -33,9 +33,10 @@ public class Dia implements Comparable<Dia>{
     public boolean addFamilia(Familia f){
         if (capacidadActual(f.miembros())){
             familias.add(f);
+            f.setDiaDesignado(this.getId());
             setCapacidadActual(getCapacidadActual() - f.miembros());
             if (f.getDiaDesignado() > 0){
-                bono = bono + (25 + (10 * f.miembros()) + (5 * f.getDiaDesignado()));
+                bono = bono + (25 + (10 * f.miembros()) + (5 * f.getIndicePreferido()));
             }
             return true;
         }else{
@@ -44,11 +45,12 @@ public class Dia implements Comparable<Dia>{
     }
 
     public void remove (int id){
-        for (int i = 0; i < familias.size() ; i++) {
-            if (familias.get(i).getId() == id){
-                familias.remove(i);
-                this.setCapacidadActual(capacidadActual+familias.get(i).miembros());
-            }
+        Familia aux = new Familia(id, 0, new int[3]);
+        if (familias.contains(aux)){
+            aux = familias.get(familias.indexOf(aux));
+            familias.remove(aux);
+            bono = bono - (25 + (10 * aux.miembros()) + (5 * aux.getIndicePreferido()));
+            this.setCapacidadActual(capacidadActual+aux.miembros());
         }
     }
 

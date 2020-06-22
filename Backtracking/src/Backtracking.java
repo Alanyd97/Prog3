@@ -5,60 +5,72 @@ import java.util.Iterator;
 public class Backtracking {
 
     private ArrayList<Dia> dias;
-    ArrayList<Familia> familias;
-    public Backtracking(ArrayList<Familia> f){
-        familias = f;
-        for (int i = 0; i < 10; i++) {
-            dias.add(new Dia(i+1));
-        }
+    private ArrayList<Dia> diasTotales;
+    private int bonoMinimo;
+
+    public Backtracking(ArrayList<Familia> f, ArrayList<Dia> d){
+        diasTotales = d;
+        bonoMinimo = 7000;
     }
 
 
+    private boolean esResultado(int bono){
+        return bono < bonoMinimo;
+    }
 
-    public void backtracking(ArrayList<Familia> sinDesignar , ArrayList<Dia> diasActuales){
-        if (sinDesignar.isEmpty()){
-            //calcular y devolver bono
+    public void backtracking(ArrayList<Familia> sinDesignar , int bono){
+        if (esFinal(sinDesignar)){
+            System.out.println(bonoMinimo);
+            for(Dia a : diasTotales){
+                bono = bono + a.getBono();
+            }
+            if (esResultado(bono)){
+                bonoMinimo = bono;
+                System.out.println("minimo: "+bonoMinimo);
+            }
         }else{
-            for(int i = 0; i < diasActuales.size(); i++){
-                for (int j = 0; j < sinDesignar.size(); j++) {
-                    Familia fam = sinDesignar.get(j);
-                    Dia diaActual = diasActuales.get(j);
-                    if (designar(sinDesignar, diasActuales, diaActual, fam)){
-                        backtracking(sinDesignar, diasActuales);
-                        desDesignar(sinDesignar, diasActuales, diaActual, fam);
-                    }
-                }
+            for (int j = 0; j < sinDesignar.size(); j++) {
+                Familia fam = sinDesignar.get(j);
+                sinDesignar.remove(j);
+                if(designar(fam))
+                    backtracking(sinDesignar, bono);
+                desDesignar(sinDesignar, fam);
+
             }
         }
     }
 
-    private boolean designar(ArrayList<Familia> sinDesignar,  ArrayList<Dia> diasActuales, Dia diaActual, Familia fam){
-        int dia = fam.diaPreferido();
-        //si lo agrega
-        if (diaActual.addFamilia(fam)){
-            if (diaActual.getCapacidadActual() <=4){
-                diasActuales.remove(diaActual);
+    private boolean designar(Familia fam){
+        for (int i = 0 ; i < 3 ;i++ ){
+            if (diasTotales.get(fam.preferenciaEn(i)-1).addFamilia(fam)){
+                return true;
             }
-            fam.setDiaDesignado(diaActual.getId());
-            sinDesignar.remove(fam);
+        }
+        return false;
+    }
+
+    private void desDesignar(ArrayList<Familia> sinDesignar, Familia fam){
+        sinDesignar.add(fam);
+        if (fam.fueDesignada()){
+            diasTotales.get(fam.getDiaDesignado()-1).remove(fam.getId());
+        }
+    }
+
+    private boolean esFinal(ArrayList<Familia> sinDesignar){
+        if (sinDesignar.isEmpty() || contiene(sinDesignar)){
             return true;
         }else{
-            fam.setIndicePreferido(fam.getIndicePreferido()+1);
-            if (fam.getDiaDesignado() > 2)
-                return false;
-            else
-                return true;
+            return false;
         }
     }
 
-    private void desDesignar(ArrayList<Familia> sinDesignar, ArrayList<Dia> diasActuales, Dia diaActual, Familia fam){
-        diaActual.remove(fam.getId());
-        if (!sinDesignar.contains(fam)){
-            sinDesignar.add(fam);
+    private boolean contiene(ArrayList<Familia> sinDesignar){
+        for (Familia a : sinDesignar){
+            if(a.getIndicePreferido() > 3){
+                return true;
+            }
         }
-        if (!diasActuales.contains(diaActual)){
-            diasActuales.add(diaActual);
-        }
+        return false;
     }
 
 
