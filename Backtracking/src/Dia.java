@@ -17,7 +17,6 @@ public class Dia implements Comparable<Dia>{
         familias = new ArrayList<>();
         id=a;
         capacidadActual = capacidad;
-        bono = 0;
     }
 
     public int getId(){return this.id;}
@@ -33,11 +32,7 @@ public class Dia implements Comparable<Dia>{
     public boolean addFamilia(Familia f){
         if (capacidadActual(f.miembros())){
             familias.add(f);
-            f.setDiaDesignado(this.getId());
             setCapacidadActual(getCapacidadActual() - f.miembros());
-            if (f.getDiaDesignado() > 0){
-                bono = bono + (25 + (10 * f.miembros()) + (5 * f.getIndicePreferido()));
-            }
             return true;
         }else{
             return false;

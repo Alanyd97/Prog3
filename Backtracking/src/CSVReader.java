@@ -23,7 +23,7 @@ public class CSVReader {
         for (String line: lines){
             families.add(this.parseLine(line));
         }
-        Collections.sort(families);
+       //Collections.sort(families);
         return families;
     }
 

@@ -12,7 +12,7 @@ public class Main {
         ArrayList<Familia> familias = reader.read();
         for (Familia a: familias
              ) {
-            //System.out.println(a);
+            //7/System.out.println(a);
         }
 
         CSVReader reader2 = new CSVReader("./data/familias-2.csv");
@@ -23,9 +23,13 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             dias.add(new Dia(i+1));
         }
-        Backtracking b = new Backtracking( familias,dias);
+        Backtracking b = new Backtracking(familias,dias);
+        Backtracking a = new Backtracking(familias2,dias);
 
-        b.backtracking(familias, 7000);
+        b.backtracking(0);
+        System.out.println("Bono minimo para data set 1: "+b.getBonoMinimo()+" Estados totales: "+b.getEstados());
+        a.backtracking(0);
+        System.out.println("Bono minimo para data set 2: "+a.getBonoMinimo()+" Estados totales: "+b.getEstados());
 
     }
 }
