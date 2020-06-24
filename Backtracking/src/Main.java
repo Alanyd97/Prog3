@@ -10,14 +10,11 @@ public class Main {
         CSVReader reader = new CSVReader("./data/familias-1.csv");
 
         ArrayList<Familia> familias = reader.read();
-        for (Familia a: familias
-             ) {
-            //7/System.out.println(a);
-        }
 
         CSVReader reader2 = new CSVReader("./data/familias-2.csv");
 
         ArrayList<Familia> familias2 = reader2.read();
+
         ArrayList<Dia> dias = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
