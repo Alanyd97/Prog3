@@ -19,6 +19,7 @@ public class Backtracking {
     que estoy por agregar no supere el bono minimo, y como avanzo por
     familias "podo" las familias que puede recorrer a las que no estan
     designadas
+    La profundidad del arbol sin podas = n : n = familias.size() ya sea 10/20/30
      */
 
     private static int estados;
@@ -64,7 +65,10 @@ public class Backtracking {
             Familia fam = familias.get(iActual);
             for (int j = 0; j < 3; j++) {
                 if (designar(fam, j) ){
-                    if (mejorBono()){
+                    //aca la funcion "es resultado" funciona como poda
+                    // preguntando si el bono ya actualzado en designar
+                    //es menor al bono minimo encontrado
+                    if (esResultado()){
                         iActual++;
                         backtracking(iActual);
                         iActual--;
@@ -77,9 +81,6 @@ public class Backtracking {
 
     public int getBonoMinimo(){return this.bonoMinimo;}
 
-    private boolean mejorBono(){
-        return bonoActual < bonoMinimo;
-    }
 
     /*
     A designar le llega una familia y una iteracion del dia preferencial de la familia
