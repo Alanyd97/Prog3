@@ -66,10 +66,10 @@ public class Arbol {
 
     private void posOrder(Nodo a){
         if (a.getMenores() != null){
-            inOrder(a.getMenores());
+            posOrder(a.getMenores());
         }
         if (a.getMayores() != null){
-            inOrder( a.getMayores());
+            posOrder( a.getMayores());
         }
         System.out.print(a.getInfo()+" | ");
     }
@@ -77,10 +77,10 @@ public class Arbol {
     private void preOrder(Nodo a){
         System.out.print(a.getInfo()+" | ");
         if (a.getMayores() != null){
-            inOrder(a.getMayores());
+            preOrder(a.getMayores());
         }
         if (a.getMenores() != null){
-            inOrder(a.getMenores());
+            preOrder(a.getMenores());
         }
     }
 
@@ -254,7 +254,6 @@ public class Arbol {
         }
     }
 
-    
     public boolean eliminar(Integer n) {
         if (isEmpty()) {
             return false;
